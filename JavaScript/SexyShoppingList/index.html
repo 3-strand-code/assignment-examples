@@ -1,0 +1,60 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <style>
+        .tab {
+            display: none;
+        }
+    </style>
+
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <script src="https://cdn.firebase.com/js/client/2.4.0/firebase.js"></script>
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">-->
+    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>-->
+
+    <script>
+        var show_tab = function (tab_id) {
+            $(".tab").hide();
+            $(tab_id).show();
+        };
+
+        $(document).ready(function () {
+            // Get our food lists
+            var foods_to_buy = new Firebase("https://sexyshoppinglist.firebaseio.com/to_buy");
+            foods_to_buy.once("value", function (snap) {
+                console.log("initial data loaded!", snap.val());
+            });
+
+            $("#food_to_cook_container .food_list").append("<li>I'm a food?</li>");
+
+            // By default show our food to buy container
+            show_tab("#food_to_cook_container");
+        });
+    </script>
+</head>
+
+<body>
+
+<button onclick="show_tab('#food_to_cook_container');">Cook</button>
+<button onclick="show_tab('#food_to_buy_container');">Buy</button>
+<button onclick="show_tab('#add_food_container');">+</button>
+
+<div id="food_to_cook_container" class="tab">
+    <h1>To Cook</h1>
+    <ul class="food_list"></ul>
+</div>
+
+<div id="food_to_buy_container" class="tab">
+    <h1>To Buy</h1>
+    <ul class="food_list"></ul>
+</div>
+
+<div id="add_food_container" class="tab">
+    <h1>Add Food</h1>
+    <ul class="food_list"></ul>
+</div>
+</body>
+</html>
